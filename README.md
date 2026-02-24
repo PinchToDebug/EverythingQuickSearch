@@ -62,7 +62,7 @@ The project is under development and may contain bugs.
 This project is licensed under the MIT License.
 
 ## 🌟 Credits
-
+- [Everything](https://www.voidtools.com) - [License](https://www.voidtools.com/License.txt)
 - [WPF UI](https://github.com/lepoco/wpfui) - [MIT License](https://github.com/lepoco/wpfui/blob/main/LICENSE)
 - [WindowsCommunityToolkit](https://github.com/CommunityToolkit/WindowsCommunityToolkit) - [MIT License](https://github.com/CommunityToolkit/WindowsCommunityToolkit?tab=License-1-ov-file#License-1-ov-file)
 - [MouseKeyHook](https://github.com/svg-net/SVG) - [MIT Licens](https://github.com/gmamaladze/globalmousekeyhook?tab=MIT-1-ov-file)
