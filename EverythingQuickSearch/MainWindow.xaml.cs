@@ -32,6 +32,7 @@ using Brush = System.Windows.Media.Brush;
 using Button = System.Windows.Controls.Button;
 using Color = System.Windows.Media.Color;
 using File = System.IO.File;
+using Point = System.Windows.Point;
 using Registry = Microsoft.Win32.Registry;
 using SystemColors = System.Windows.SystemColors;
 using Task = System.Threading.Tasks.Task;
@@ -89,6 +90,19 @@ namespace EverythingQuickSearch
         static extern IntPtr SendMessage(IntPtr hWnd, int msg, IntPtr wParam, IntPtr lParam);
         const int WM_CLOSE = 0x0010;
 
+        [DllImport("shcore.dll")]
+        public static extern int GetDpiForMonitor(IntPtr hmonitor, MonitorDpiType dpiType, out uint dpiX, out uint dpiY);
+        public enum MonitorDpiType
+        {
+            MDT_EFFECTIVE_DPI = 0
+        }
+
+        [DllImport("user32.dll")]
+        public static extern IntPtr MonitorFromPoint(Point pt, uint dwFlags);
+
+        [DllImport("user32.dll")]
+        public static extern bool ScreenToClient(IntPtr hWnd, ref Point lpPoint);
+
         #endregion
 
         private RegistryHelper reg = new RegistryHelper("EverythingQuickSearch");
@@ -124,6 +138,7 @@ namespace EverythingQuickSearch
         static BitmapSource? _defaultFolderIcon;
         private bool _darkModeApplication = true;
         private bool _darkModeSearchBar = true;
+        bool _isStartCentered = false;
 
         CancellationTokenSource? _searchCts;
 
@@ -200,6 +215,23 @@ namespace EverythingQuickSearch
             LoadSearchIcon();
         }
 
+        private double GetScalingForWindow()
+        {
+            GetWindowRect(_searchHwnd, out RECT rect);
+
+            int centerX = (rect.left + rect.right) / 2;
+            int centerY = (rect.top + rect.bottom) / 2;
+
+            Point pt = new Point { X = centerX, Y = centerY };
+            ScreenToClient(_searchHwnd, ref pt);
+
+            IntPtr hMon = MonitorFromPoint(pt, 2);
+
+            GetDpiForMonitor(hMon, MonitorDpiType.MDT_EFFECTIVE_DPI, out uint dpiX, out _);
+
+            return dpiX / 96f;
+        }
+
         private void UpdateWPFUITheme()
         {
             _darkModeApplication = (int?)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
@@ -230,10 +262,18 @@ namespace EverythingQuickSearch
 
                     Dispatcher.Invoke(async () =>
                     {
-                        this.Left = _searchHostRect.left + 12;
-                        this.Top = _searchHostRect.top + 12;
+                        //TODO: When EQS is window too small
+                        //the category bar's buttons might not be visible
+                        double scaling = GetScalingForWindow();
+
+                        this.Left = _searchHostRect.left * scaling;
+                        this.Top = _searchHostRect.top * scaling + 12;
                         this.Width = _searchHostRect.right - _searchHostRect.left;
                         this.Height = _searchHostRect.bottom - _searchHostRect.top - 24;
+                        if (_isStartCentered)
+                        {
+                            this.Left += 12;
+                        }
                         Debug.WriteLine("show");
 
                         this.Show();
@@ -279,6 +319,9 @@ namespace EverythingQuickSearch
                 _lookForKeyDown = true;
                 ChangeSelectedButton(AllFilterButton);
                 Debug.WriteLine("look for keys..");
+                _isStartCentered = (int?)Registry.GetValue(
+                    @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
+                    "TaskbarAl", 1) == 0;
             }
             else
             {
