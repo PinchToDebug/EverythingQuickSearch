@@ -541,10 +541,11 @@
             </Border>
         </Grid>
         <tray:NotifyIcon Grid.Row="0" 
+                         Icon="/Icon/icon2.ico"
                          FocusOnLeftClick="True"  
                          Name="TrayIcon"
                          MenuOnRightClick="True"
-                        TooltipText="Everything Quick Search" >
+                         TooltipText="Everything Quick Search" >
             <tray:NotifyIcon.Menu>
                 <ContextMenu MinWidth="65">
                     <MenuItem Name="versionHeader"

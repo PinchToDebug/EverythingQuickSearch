@@ -10,6 +10,7 @@
     <SupportedOSPlatformVersion>10.0.19041.0</SupportedOSPlatformVersion>
     <AssemblyVersion>1.0.0</AssemblyVersion>
     <FileVersion>1.0.0</FileVersion>
+    <ApplicationIcon>Icon\icon.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -37,6 +38,11 @@
     <Content Include="Everything64.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Icon\icon.ico" />
+    <Resource Include="Icon\icon2.ico" />
   </ItemGroup>
 
 </Project>
