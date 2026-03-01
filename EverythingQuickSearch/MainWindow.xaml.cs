@@ -21,6 +21,7 @@ using Application = System.Windows.Application;
 using Brush = System.Windows.Media.Brush;
 using Button = System.Windows.Controls.Button;
 using File = System.IO.File;
+using MenuItem = Wpf.Ui.Controls.MenuItem;
 using Point = System.Windows.Point;
 using Registry = Microsoft.Win32.Registry;
 using Task = System.Threading.Tasks.Task;
@@ -725,6 +726,55 @@ namespace EverythingQuickSearch
                 }
             }
         }
+        private void ItemTemplate_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border border && border.DataContext is FileItem item)
+            {
+                if (e.ChangedButton == MouseButton.Right)
+                {
+                    ContextMenu contextMenu = new ContextMenu();
+                    MenuItem open = new MenuItem { Header = "Open", Height = 34, Icon = new SymbolIcon(SymbolRegular.Open24, 16) };
+                        Debug.WriteLine(item.FullPath);
+                   
+                    open.Click += (_, _) =>
+                    {
+                        try
+                        {
+                            Process.Start(new ProcessStartInfo(item.FullPath) { UseShellExecute = true });
+                        }
+                        catch { }
+                    };
+
+                    MenuItem openPath = new MenuItem { Header = "Open path", Height = 34, Icon = new SymbolIcon(SymbolRegular.FolderOpen24, 16) };
+                    openPath.Click += (_, _) =>
+                    {
+                        try
+                        {
+                            Process.Start(new ProcessStartInfo(Path.GetDirectoryName(item.FullPath)!) { UseShellExecute = true });
+                        }
+                        catch { }
+                    };
+                    
+                    MenuItem copyPath = new MenuItem { Header = "Copy as path", Height = 34, Icon = new SymbolIcon(SymbolRegular.Share24, 16) };
+                    copyPath.Click += (_, _) =>
+                    {
+                        Clipboard.SetText(item.FullPath);
+                    };
+                    
+                    MenuItem copyFolderPath = new MenuItem { Header = "Copy folder path", Height = 34, Icon = new SymbolIcon(SymbolRegular.Copy24,16) };
+                    copyFolderPath.Click += (_, _) =>
+                    {
+                        Clipboard.SetText(Path.GetDirectoryName(item.FullPath));
+                    };
+                    contextMenu.Items.Add(open);
+                    contextMenu.Items.Add(openPath);
+                    contextMenu.Items.Add(new Separator());
+                    contextMenu.Items.Add(copyPath);
+                    contextMenu.Items.Add(copyFolderPath);
+                    contextMenu.IsOpen = true;
+                }
+            }
+        }
 
         private string HumanizeSize(long bytes)
         {
@@ -972,7 +1022,7 @@ namespace EverythingQuickSearch
 
             ChangeSelectedButton(AllFilterButton);
         }
-      
+
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             if (msg == _taskbarRestartMessage)

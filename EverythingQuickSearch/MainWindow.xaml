@@ -57,6 +57,7 @@
                     BorderThickness="1"
                     MouseLeftButtonDown="FileItemTemplate_MouseLeftButtonDown"
                     MouseEnter="ItemTemplate_MouseEnter"
+                    MouseUp="ItemTemplate_MouseUp"
                     Background="{Binding Background}"
                     MouseLeave="ItemTemplate_MouseLeave"
                     MouseDown="FileItemTemplate_MouseDown">
