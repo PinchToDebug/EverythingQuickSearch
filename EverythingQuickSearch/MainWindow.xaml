@@ -351,15 +351,16 @@
 
                                 <Border CornerRadius="8"
                                     ClipToBounds="True">
-                                    <Image x:Name="SelectedItemPreviewImage"
+                                    <ui:Image x:Name="SelectedItemPreviewImage"
                                        Cursor="Hand"
                                        MouseDown="SelectedItemPreviewImage_MouseDown"
                                        Height="250" 
                                        Width="64"
+                                       CornerRadius="6"
                                        SnapsToDevicePixels="True"
                                        RenderOptions.BitmapScalingMode="Fant"
                                        UseLayoutRounding="True">
-                                    </Image>
+                                    </ui:Image>
                                 </Border>
 
                                 <TextBlock x:Name="SelectedItemPreviewName"

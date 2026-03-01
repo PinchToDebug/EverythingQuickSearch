@@ -793,18 +793,6 @@ namespace EverythingQuickSearch
                 }
             }
             catch (OperationCanceledException) { }
-            if (isMedia)
-            {
-                await SelectedItemPreviewImage.Dispatcher.BeginInvoke(() =>
-                {
-                    SelectedItemPreviewImage.Clip = new RectangleGeometry
-                    {
-                        Rect = new Rect(0, 0, SelectedItemPreviewImage.ActualWidth, SelectedItemPreviewImage.ActualHeight),
-                        RadiusX = 4,
-                        RadiusY = 4
-                    };
-                }, DispatcherPriority.Loaded);
-            }
 
             if (Directory.Exists(item.FullPath)) // hide option for folders
             {
