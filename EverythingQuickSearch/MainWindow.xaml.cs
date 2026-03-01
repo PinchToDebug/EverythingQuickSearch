@@ -726,6 +726,21 @@ namespace EverythingQuickSearch
                 }
             }
         }
+
+        private void AppItemTemplate_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            if (sender is Border border && border.DataContext is FileItem item)
+            {
+                if (e.ChangedButton == MouseButton.Right)
+                {
+                    ContextMenu contextMenu = new ContextMenu();
+                    MenuItem open = new MenuItem { Header = "Open", Height = 34, Icon = new SymbolIcon(SymbolRegular.Open24, 16) };
+                    contextMenu.Items.Add(open);
+                    contextMenu.IsOpen = true;
+                }
+            }
+        }
+
         private void ItemTemplate_MouseUp(object sender, MouseButtonEventArgs e)
         {
             if (sender is Border border && border.DataContext is FileItem item)
@@ -734,8 +749,8 @@ namespace EverythingQuickSearch
                 {
                     ContextMenu contextMenu = new ContextMenu();
                     MenuItem open = new MenuItem { Header = "Open", Height = 34, Icon = new SymbolIcon(SymbolRegular.Open24, 16) };
-                        Debug.WriteLine(item.FullPath);
-                   
+                    Debug.WriteLine(item.FullPath);
+
                     open.Click += (_, _) =>
                     {
                         try
@@ -754,14 +769,14 @@ namespace EverythingQuickSearch
                         }
                         catch { }
                     };
-                    
+
                     MenuItem copyPath = new MenuItem { Header = "Copy as path", Height = 34, Icon = new SymbolIcon(SymbolRegular.Share24, 16) };
                     copyPath.Click += (_, _) =>
                     {
                         Clipboard.SetText(item.FullPath);
                     };
-                    
-                    MenuItem copyFolderPath = new MenuItem { Header = "Copy folder path", Height = 34, Icon = new SymbolIcon(SymbolRegular.Copy24,16) };
+
+                    MenuItem copyFolderPath = new MenuItem { Header = "Copy folder path", Height = 34, Icon = new SymbolIcon(SymbolRegular.Copy24, 16) };
                     copyFolderPath.Click += (_, _) =>
                     {
                         Clipboard.SetText(Path.GetDirectoryName(item.FullPath));

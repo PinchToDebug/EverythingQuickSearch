@@ -108,7 +108,8 @@
                     Height="37"
                     MouseEnter="ItemTemplate_MouseEnter"
                     MouseLeave="ItemTemplate_MouseLeave"
-                    MouseDown="AppItemTemplate_MouseDown">
+                    MouseDown="AppItemTemplate_MouseDown"
+                    MouseUp="AppItemTemplate_MouseUp">
                 <Grid >
                     <Rectangle Height="auto"
                                Margin="-3,4,0,4"
