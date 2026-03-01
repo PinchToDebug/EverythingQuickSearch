@@ -1126,6 +1126,11 @@ namespace EverythingQuickSearch
         private void RegexButton_Click(object sender, RoutedEventArgs e)
         {
             enableRegex = !enableRegex;
+            if (enableRegex)
+            {
+                ChangeSelectedButton(AllFilterButton);
+                _categoryFilter = SearchCategory.GetExtensions(Category.All);
+            }
             _currentQuery = string.Empty;
             _currentFileOffset = 0;
             FileItems.Clear();
@@ -1360,6 +1365,8 @@ namespace EverythingQuickSearch
 
         private async void CategoryButton_Click(object sender, RoutedEventArgs e)
         {
+            if (enableRegex) return;
+
             if (sender is Button btn && Enum.TryParse<Category>(btn.Tag?.ToString(), out var category))
             {
                 ChangeSelectedButton(btn);
@@ -1390,7 +1397,20 @@ namespace EverythingQuickSearch
                 }
             }
         }
-
+        private void FilterButton_MouseEnter(object sender, MouseEventArgs e)
+        {
+            if (sender is Button btn)
+            {
+                if (enableRegex)
+                {
+                    btn.ToolTip = "Can't change category when\nregex filtering is enabled";
+                }
+                else
+                {
+                    btn.ToolTip = null;
+                }
+            }
+        }
         private void FluentWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (_everything != null)

@@ -33,6 +33,8 @@
             <Setter Property="Background" Value="{DynamicResource CardBackgroundFillColorDefaultBrush}"/>
             <Setter Property="BorderBrush" Value="{DynamicResource ControlStrokeColorDefaultBrush}"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="0"/>
+            <Setter Property="ToolTipService.BetweenShowDelay" Value="0"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -219,6 +221,7 @@
                 <StackPanel Orientation="Horizontal" Grid.Column="0">
                     <Button Content="All"
                         x:Name="AllFilterButton"
+                        MouseEnter="FilterButton_MouseEnter"
                         Tag="{x:Static local:Category.All}"
                         Style="{StaticResource RoundedFilterButton}"
                         Background="{DynamicResource {x:Static SystemColors.MenuHighlightBrushKey}}"
@@ -227,12 +230,14 @@
                     <Button Content="Files"
                         Tag="{x:Static local:Category.File}"
                         x:Name="FilesFilterButton"
+                        MouseEnter="FilterButton_MouseEnter"
                         Style="{StaticResource RoundedFilterButton}"
                         Click="CategoryButton_Click"/>
 
                     <Button Content="Folders"
                         Tag="{x:Static local:Category.Folder}"
                         x:Name="FoldersFilterButton"
+                        MouseEnter="FilterButton_MouseEnter"
                         Style="{StaticResource RoundedFilterButton}"
                         Click="CategoryButton_Click"
                         Margin="0,0,8,0"/>
@@ -242,6 +247,7 @@
 
                     <Button Content="Executables"
                         x:Name="AppsFilterButton"
+                        MouseEnter="FilterButton_MouseEnter"
                         Tag="{x:Static local:Category.Executable}"
                         Style="{StaticResource RoundedFilterButton}"
                         Click="CategoryButton_Click"
@@ -250,24 +256,28 @@
                     <Button Content="Documents"
                         Tag="{x:Static local:Category.Document}"
                         x:Name="FilterButton"
+                        MouseEnter="FilterButton_MouseEnter"
                         Click="CategoryButton_Click"
                         Style="{StaticResource RoundedFilterButton}"/>
 
                     <Button Content="Images"
                         Tag="{x:Static local:Category.Image}"
                         x:Name="ImagesFilterButton"
+                        MouseEnter="FilterButton_MouseEnter"
                         Click="CategoryButton_Click"
                         Style="{StaticResource RoundedFilterButton}"/>
 
                     <Button Content="Videos"
                         Tag="{x:Static local:Category.Video}"
                         x:Name="VideoFilterButton"
+                        MouseEnter="FilterButton_MouseEnter"
                         Click="CategoryButton_Click"
                         Style="{StaticResource RoundedFilterButton}"/>
 
                     <Button Content="Compressed"
                         Tag="{x:Static local:Category.Compressed}"
                         x:Name="CompressedFilterButton"
+                        MouseEnter="FilterButton_MouseEnter"
                         Click="CategoryButton_Click"
                         Style="{StaticResource RoundedFilterButton}"/>
 
