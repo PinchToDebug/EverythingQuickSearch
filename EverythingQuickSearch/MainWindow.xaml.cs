@@ -150,6 +150,7 @@ namespace EverythingQuickSearch
         private int _currentAppOffset = 0;
         private bool _hasMoreAppResults = true;
         private bool _hasMoreFileResults = true;
+        private bool enableRegex = false;
 
         private HashSet<Key> _keysDown = new();
 
@@ -355,6 +356,8 @@ namespace EverythingQuickSearch
             Debug.WriteLine("OnDeactivated hiding");
 
             this.Hide();
+            enableRegex = true;
+            RegexButton_Click(null!, null!);
             _isShowing = false;
             LoadUwpApps();
 
@@ -427,7 +430,7 @@ namespace EverythingQuickSearch
 
         private async void LoadSearchIcon() // get windows searh icon
         {
-            var tempList = await _everything!.SearchAsync("SearchIconOnDark.scale-200.png", 0, 1);
+            var tempList = await _everything!.SearchAsync("SearchIconOnDark.scale-200.png", 0, 1, false);
             foreach (var item in tempList)
             {
                 await Application.Current.Dispatcher.InvokeAsync(async () =>
@@ -456,7 +459,7 @@ namespace EverythingQuickSearch
                      @"""C:\ProgramData\Microsoft\Windows\Start Menu\Programs\"" | "
                 + "\"" + shortcutFolder + "\"";
 
-                    tempList = await _everything.SearchAsync(searchText2, 0, 5);
+                    tempList = await _everything.SearchAsync(searchText2, 0, 5, false);
                     foreach (var item in tempList)
                     {
                         item.Name = Path.GetFileNameWithoutExtension(item.Name);
@@ -559,7 +562,7 @@ namespace EverythingQuickSearch
                 List<FileItem> tempList;
                 try
                 {
-                    tempList = await _everything!.SearchAsync(searchText, _currentFileOffset, PageSize);
+                    tempList = await _everything!.SearchAsync(searchText, _currentFileOffset, PageSize, enableRegex);
                 }
                 catch (TaskCanceledException)
                 {
@@ -1096,7 +1099,40 @@ namespace EverythingQuickSearch
             }
             _selectedCategoryButton.Foreground = new SolidColorBrush(_darkModeApplication ? Colors.Black : Colors.White);
         }
-
+        private void changeRegexButtonColor()
+        {
+            if (enableRegex)
+            {
+                if (_darkModeApplication)
+                {
+                    RegexButton.SetResourceReference(Button.BackgroundProperty, "AccentTextFillColorPrimaryBrush");
+                }
+                else
+                {
+                    RegexButton.SetResourceReference(Button.BackgroundProperty, "SystemAccentColorPrimaryBrush");
+                }
+            }
+            else
+            {
+                RegexButton.ClearValue(Button.BackgroundProperty);
+                RegexButton.SetResourceReference(Button.ForegroundProperty, "TextFillColorPrimaryBrush");
+            }
+            RegexButton.Foreground = new SolidColorBrush(
+                _darkModeApplication
+                    ? (enableRegex ? Colors.Black : Colors.White)
+                    : (enableRegex ? Colors.White : Colors.Black)
+                );
+        }
+        private void RegexButton_Click(object sender, RoutedEventArgs e)
+        {
+            enableRegex = !enableRegex;
+            _currentQuery = string.Empty;
+            _currentFileOffset = 0;
+            FileItems.Clear();
+            _fileItemMap.Clear();
+            SearchBarTextBox_TextChanged(SearchBarTextBox, null!);
+            changeRegexButtonColor();
+        }
         private async void FluentWindow_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             //TODO: add left right
@@ -1121,6 +1157,10 @@ namespace EverythingQuickSearch
             {
                 switch (actualKey)
                 {
+                    case Key.R:
+                        RegexButton_Click(null!, null!);
+                        break;
+
                     case Key.D1:
                     case Key.NumPad1:
                         AllFilterButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));

@@ -23,7 +23,7 @@ namespace EverythingQuickSearch
             Everything_SetReplyID(REPLY_ID);
         }
 
-        public Task<List<FileItem>> SearchAsync(string searchText, int offset, int maxResults)
+        public Task<List<FileItem>> SearchAsync(string searchText, int offset, int maxResults, bool enableRegex)
         {
             int replyId = Interlocked.Increment(ref _nextReplyId);
 
@@ -39,13 +39,13 @@ namespace EverythingQuickSearch
                 EVERYTHING_REQUEST_PATH |
                 EVERYTHING_REQUEST_DATE_MODIFIED |
                 EVERYTHING_REQUEST_SIZE);
-
+            Everything_SetRegex(enableRegex);
             Everything_SetReplyID(replyId);
             Everything_QueryW(false);
 
             return tcs.Task;
         }
-       
+
         private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
             foreach (var kvp in _pendingQueries.ToList())
@@ -78,7 +78,7 @@ namespace EverythingQuickSearch
                     string fullPath = sb.ToString();
 
                     string fileName = System.IO.Path.GetFileName(fullPath);
-                   
+
                     if (string.IsNullOrEmpty(fileName))
                     {
                         continue;
@@ -124,6 +124,8 @@ namespace EverythingQuickSearch
 
         [DllImport("Everything64.dll")]
         private static extern void Everything_SetMax(uint dwMax);
+        [DllImport("Everything64.dll")]
+        public static extern void Everything_SetRegex(bool bEnable);
 
         [DllImport("Everything64.dll")]
         private static extern void Everything_SetRequestFlags(uint dwFlags);

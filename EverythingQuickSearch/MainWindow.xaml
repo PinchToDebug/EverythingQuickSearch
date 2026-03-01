@@ -155,19 +155,28 @@
                 Height="32"
                 BorderThickness="1"
                 VerticalAlignment="Top">
-            <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="8,0">
+            <Grid VerticalAlignment="Center"
+                  Margin="8,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-                <Image x:Name="SearchIconImage" Height="16"
+                <Image x:Name="SearchIconImage"
+                       Grid.Column="0"
+                       Height="16"
                        Margin="7,0,0,0"
                        SnapsToDevicePixels="True"
                        RenderOptions.BitmapScalingMode="Fant"
                        UseLayoutRounding="True"/>
 
-                <ui:TextBox Foreground="{DynamicResource TextFillColorPrimaryBrush}" x:Name="SearchBarTextBox"
+                <ui:TextBox Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                            x:Name="SearchBarTextBox"
+                            Grid.Column="1"
                             PlaceholderText="iiuiuioi"
                             CaretBrush="{DynamicResource TextFillColorPrimaryBrush}"
                             PlaceholderEnabled="True"
-                            Width="1000"
                             Height="30"
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
@@ -181,8 +190,18 @@
                         </Style>
                     </ui:TextBox.Style>
                 </ui:TextBox>
-
-            </StackPanel>
+                <Button Content=".*"
+                        x:Name="RegexButton"
+                        Click="RegexButton_Click"
+                        FontWeight="Medium"
+                        Grid.Column="2"
+                        Style="{StaticResource RoundedFilterButton}"
+                        Margin="0,0,-3,0"
+                        Height="26"
+                        Width="26"
+                        Padding="0"
+                        VerticalAlignment="Center"/>
+            </Grid>
         </Border>
 
 
