@@ -85,6 +85,25 @@ namespace EverythingQuickSearch
 
         [DllImport("user32.dll", CharSet = CharSet.Auto)]
         public static extern uint RegisterWindowMessage(string lpString);
+
+        [DllImport("user32.dll")]
+        private static extern bool BringWindowToTop(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        static extern bool SetForegroundWindow(IntPtr hWnd);
+
+        [DllImport("user32.dll")]
+        static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll")]
+        static extern uint GetWindowThreadProcessId(IntPtr hWnd, IntPtr lpdwProcessId);
+
+        [DllImport("kernel32.dll")]
+        static extern uint GetCurrentThreadId();
+
+        [DllImport("user32.dll")]
+        static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
+
         #endregion
 
         private static readonly HashSet<System.Windows.Forms.Keys> NonCharacterKeys = new()
@@ -289,16 +308,31 @@ namespace EverythingQuickSearch
                         await Dispatcher.BeginInvoke(new Action(() => { }), DispatcherPriority.Render);
                         await Dispatcher.BeginInvoke(new Action(() =>
                         {
+                            var hwnd = new WindowInteropHelper(this).Handle;
+
+                            uint appThread = GetCurrentThreadId();
+                            uint foregroundThread = GetWindowThreadProcessId(GetForegroundWindow(), IntPtr.Zero);
+
+                            if (foregroundThread != appThread)
+                            {
+                                AttachThreadInput(appThread, foregroundThread, true);
+                                BringWindowToTop(hwnd);
+                                SetForegroundWindow(hwnd);
+                                AttachThreadInput(appThread, foregroundThread, false);
+                            }
+                            else
+                            {
+                                BringWindowToTop(hwnd);
+                                SetForegroundWindow(hwnd);
+                            }
+
                             this.Activate();
+
                             SearchBarTextBox.Text += forwardText;
                             SearchBarTextBox.CaretIndex = SearchBarTextBox.Text.Length;
                             SearchBarTextBox.Focus();
 
-                            this.Activate();
-                            this.Focus();
                             _isShowing = true;
-                            //  this.Topmost = true;
-
                         }), DispatcherPriority.ApplicationIdle);
 
 
