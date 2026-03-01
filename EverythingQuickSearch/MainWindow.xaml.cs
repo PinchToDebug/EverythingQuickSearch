@@ -82,6 +82,8 @@ namespace EverythingQuickSearch
         [DllImport("user32.dll")]
         static extern uint GetDpiForWindow(IntPtr hwnd);
 
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        public static extern uint RegisterWindowMessage(string lpString);
         #endregion
 
         private static readonly HashSet<System.Windows.Forms.Keys> NonCharacterKeys = new()
@@ -102,6 +104,7 @@ namespace EverythingQuickSearch
         private RegistryHelper reg = new RegistryHelper("EverythingQuickSearch");
         private string url = "https://api.github.com/repos/PinchToDebug/EverythingQuickSearch/releases/latest";
 
+        private uint _taskbarRestartMessage;
 
         public ObservableCollection<FileItem> FileItems { get; set; }
         public ObservableCollection<FileItem> AppItems { get; set; }
@@ -975,7 +978,23 @@ namespace EverythingQuickSearch
             var result = DwmSetWindowAttribute(hwnd, (uint)33, attribute.AddrOfPinnedObject(), sizeof(uint));
             attribute.Free();
 
+            _taskbarRestartMessage = RegisterWindowMessage("TaskbarCreated");
+            var hwndSource = HwndSource.FromHwnd(hwnd);
+            hwndSource.AddHook(WndProc);
+
             ChangeSelectedButton(AllFilterButton);
+        }
+      
+        private IntPtr WndProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
+        {
+            if (msg == _taskbarRestartMessage)
+            {
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    TrayIcon.Register();
+                });
+            }
+            return IntPtr.Zero;
         }
 
         private void SelectedItemPreviewImage_MouseDown(object sender, MouseButtonEventArgs e)
