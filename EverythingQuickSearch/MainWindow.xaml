@@ -284,7 +284,8 @@
                 </StackPanel>
             </ScrollViewer>
 
-            <ui:Button Visibility="Collapsed"
+            <ui:Button Visibility="Visible"
+                       Click="GearButton_Click"
                        Grid.Column="1"
                        CornerRadius="0"
                        Style="{StaticResource RoundedFilterButton}"
@@ -293,7 +294,6 @@
 
                 <ui:SymbolIcon Symbol="Settings24"
                                FontSize="16"
-                               Opacity="0.6"
                                Margin="0"
                                HorizontalAlignment="Right"/>
             </ui:Button>

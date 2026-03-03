@@ -23,7 +23,7 @@ namespace EverythingQuickSearch
             Everything_SetReplyID(REPLY_ID);
         }
 
-        public Task<List<FileItem>> SearchAsync(string searchText, int offset, int maxResults, bool enableRegex)
+        public Task<List<FileItem>> SearchAsync(string searchText, int setSort, int offset, int maxResults, bool enableRegex)
         {
             int replyId = Interlocked.Increment(ref _nextReplyId);
 
@@ -41,6 +41,7 @@ namespace EverythingQuickSearch
                 EVERYTHING_REQUEST_SIZE);
             Everything_SetRegex(enableRegex);
             Everything_SetReplyID(replyId);
+            Everything_SetSort(setSort);
             Everything_QueryW(false);
 
             return tcs.Task;
@@ -115,6 +116,9 @@ namespace EverythingQuickSearch
         }
 
         #region Everything SDK Imports
+
+        [DllImport("Everything64.dll")]
+        public static extern void Everything_SetSort(int dwSortType);
 
         [DllImport("Everything64.dll", CharSet = CharSet.Unicode)]
         private static extern void Everything_SetSearchW(string lpSearchString);

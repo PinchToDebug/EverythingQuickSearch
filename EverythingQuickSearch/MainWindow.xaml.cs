@@ -173,6 +173,9 @@ namespace EverythingQuickSearch
         private bool _hasMoreAppResults = true;
         private bool _hasMoreFileResults = true;
         private bool enableRegex = false;
+        
+        private int _setSort = 1;
+        private bool _setSortAscending = true;
 
         private HashSet<Key> _keysDown = new();
 
@@ -512,7 +515,7 @@ namespace EverythingQuickSearch
 
         private async void LoadSearchIcon() // get windows searh icon
         {
-            var tempList = await _everything!.SearchAsync("SearchIconOnDark.scale-200.png", 0, 1, false);
+            var tempList = await _everything!.SearchAsync("SearchIconOnDark.scale-200.png", 1, 0, 1, false);
             foreach (var item in tempList)
             {
                 await Application.Current.Dispatcher.InvokeAsync(async () =>
@@ -541,7 +544,7 @@ namespace EverythingQuickSearch
                      @"""C:\ProgramData\Microsoft\Windows\Start Menu\Programs\"" | "
                 + "\"" + shortcutFolder + "\"";
 
-                    tempList = await _everything.SearchAsync(searchText2, 0, 5, false);
+                    tempList = await _everything.SearchAsync(searchText2, 1, 0, 5, false);
                     foreach (var item in tempList)
                     {
                         item.Name = Path.GetFileNameWithoutExtension(item.Name);
@@ -644,7 +647,7 @@ namespace EverythingQuickSearch
                 List<FileItem> tempList;
                 try
                 {
-                    tempList = await _everything!.SearchAsync(searchText, _currentFileOffset, PageSize, enableRegex);
+                    tempList = await _everything!.SearchAsync(searchText, _setSort, _currentFileOffset, PageSize, enableRegex);
                 }
                 catch (TaskCanceledException)
                 {
@@ -1481,6 +1484,123 @@ namespace EverythingQuickSearch
                 }
             }
         }
+
+        private void GearButton_Click(object sender, RoutedEventArgs e)
+        {
+            ContextMenu contextMenu = new ContextMenu();
+            MenuItem sortByMenuItem = new MenuItem
+            {
+                Header = "Sort by",
+                Height = 36,
+                StaysOpenOnClick = true,
+                Icon = new SymbolIcon { Symbol = SymbolRegular.ArrowSort20 }
+            };
+            MenuItem settingsMenuItem = new MenuItem
+            {
+                Header = "Settings",
+                Height = 36,
+                StaysOpenOnClick = true,
+                Icon = new SymbolIcon { Symbol = SymbolRegular.Settings20 }
+            };
+
+            HashSet<String> sortValues = new HashSet<string> {"Name","Path","Size","Extension","Type","Date created",
+                                                              "Date modified","Attributes","File list filename","Run count",
+                                                              "Date recently changed","Date Accessed","Date run"};
+            int sortId = 1;
+
+            foreach (var item in sortValues)
+            {
+                MenuItem menuitem = new MenuItem
+                {
+                    Header = item,
+                    Height = 32,
+                    StaysOpenOnClick = true,
+                    Tag = sortId,
+                    Icon = new SymbolIcon { Symbol = SymbolRegular.CircleSmall20, Foreground = Brushes.Transparent, Filled = true }
+                };
+
+                if ((int)menuitem.Tag * 2 - (_setSortAscending ? 1 : 0) == _setSort)
+                {
+                    menuitem.Icon.Foreground = _darkModeApplication ? Brushes.White : Brushes.Black;
+                }
+                menuitem.Click += (_, _) =>
+                {
+                    foreach (var item in contextMenu.Items)
+                    {
+                        if (item is MenuItem menui && sortValues.Contains(menui.Header))
+                        {
+                            menui.Icon.Foreground = Brushes.Transparent;
+                        }
+                    }
+                    menuitem.Icon.Foreground = _darkModeApplication ? Brushes.White : Brushes.Black;
+                    _setSort = (int)menuitem.Tag * 2 - (_setSortAscending ? 1 : 0);
+                    _currentQuery = string.Empty;
+                    _currentFileOffset = 0;
+                    FileItems.Clear();
+                    _fileItemMap.Clear();
+                    SearchBarTextBox_TextChanged(SearchBarTextBox, null!);
+
+                };
+                contextMenu.Items.Add(menuitem);
+
+                sortId++;
+            }
+            MenuItem descendingMenuItem = new MenuItem();
+            MenuItem ascendingMenuItem = new MenuItem
+            {
+                Header = "Ascending",
+                Height = 32,
+                StaysOpenOnClick = true,
+                Icon = new SymbolIcon { Symbol = SymbolRegular.CircleSmall20, Foreground = Brushes.Transparent, Filled = true },
+            };
+            ascendingMenuItem.Click += (_, _) =>
+            {
+                if (!_setSortAscending)
+                {
+                    _setSortAscending = true;
+                    _currentQuery = string.Empty;
+                    _currentFileOffset = 0;
+                    FileItems.Clear();
+                    _fileItemMap.Clear();
+                    SearchBarTextBox_TextChanged(SearchBarTextBox, null!);
+                    _setSort--;
+                    ascendingMenuItem.Icon.Foreground = _darkModeApplication ? Brushes.White : Brushes.Black;
+                    descendingMenuItem.Icon.Foreground = Brushes.Transparent;
+                }
+            };
+
+            descendingMenuItem = new MenuItem
+            {
+                Header = "Descending",
+                Height = 32,
+                StaysOpenOnClick = true,
+                Icon = new SymbolIcon { Symbol = SymbolRegular.CircleSmall20, Foreground = Brushes.Transparent, Filled = true },
+            };
+            descendingMenuItem.Click += (_, _) =>
+            {
+                if (_setSortAscending)
+                {
+                    _setSortAscending = false;
+                    _currentQuery = string.Empty;
+                    _currentFileOffset = 0;
+                    FileItems.Clear();
+                    _fileItemMap.Clear();
+                    SearchBarTextBox_TextChanged(SearchBarTextBox, null!);
+
+                    _setSort++;
+                    descendingMenuItem.Icon.Foreground = _darkModeApplication ? Brushes.White : Brushes.Black;
+                    ascendingMenuItem.Icon.Foreground = Brushes.Transparent;
+                }
+            };
+
+            ascendingMenuItem.Icon.Foreground = !_setSortAscending ? Brushes.Transparent : _darkModeApplication ? Brushes.White : Brushes.Black;
+            descendingMenuItem.Icon.Foreground = _setSortAscending ? Brushes.Transparent : _darkModeApplication ? Brushes.White : Brushes.Black;
+            contextMenu.Items.Add(new Separator());
+            contextMenu.Items.Add(ascendingMenuItem);
+            contextMenu.Items.Add(descendingMenuItem);
+            contextMenu.IsOpen = true;
+        }
+
         private void FilterButton_MouseEnter(object sender, MouseEventArgs e)
         {
             if (sender is Button btn)
