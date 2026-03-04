@@ -105,6 +105,17 @@ namespace EverythingQuickSearch
         [DllImport("user32.dll")]
         static extern bool AttachThreadInput(uint idAttach, uint idAttachTo, bool fAttach);
 
+
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool SystemParametersInfo(int uiAction, int uiParam, out bool pvParam, int fWinIni);
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool SystemParametersInfo(int uiAction, int uiParam, bool pvParam, int fWinIni);
+       
+        private const int SPI_GETCLIENTAREAANIMATION = 0x1042;
+        private const int SPI_SETCLIENTAREAANIMATION = 0x1043;
+
+        private const int SPIF_UPDATEINIFILE = 0x01;
+        private const int SPIF_SENDCHANGE = 0x02;
         #endregion
 
         private static readonly HashSet<System.Windows.Forms.Keys> NonCharacterKeys = new()
@@ -150,6 +161,8 @@ namespace EverythingQuickSearch
         private bool _lookForKeyDown = false;
         private bool _isVisible = true;
         private bool _isShowing;
+        private bool originalAnimationState;
+
         private IntPtr _hookForeground = IntPtr.Zero;
         private WinEventDelegate _winEventDelegate;
         private IKeyboardMouseEvents m_GlobalHook;
@@ -173,7 +186,7 @@ namespace EverythingQuickSearch
         private bool _hasMoreAppResults = true;
         private bool _hasMoreFileResults = true;
         private bool enableRegex = false;
-        
+
         private int _setSort = 1;
         private bool _setSortAscending = true;
 
@@ -262,6 +275,9 @@ namespace EverythingQuickSearch
             }
             if (_lookForKeyDown)
             {
+                // disable animations
+                SystemParametersInfo(SPI_SETCLIENTAREAANIMATION, 0, false, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+
                 PostMessage(_searchHwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
                 e.SuppressKeyPress = true;
                 GlobalHookKeyPress(sender, null);
@@ -334,6 +350,9 @@ namespace EverythingQuickSearch
 
                             this.Activate();
 
+                            // set animations to before state
+                            SystemParametersInfo(SPI_SETCLIENTAREAANIMATION, 0, originalAnimationState, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+                          
                             SearchBarTextBox.Text += forwardText;
                             SearchBarTextBox.CaretIndex = SearchBarTextBox.Text.Length;
                             SearchBarTextBox.Focus();
@@ -356,6 +375,9 @@ namespace EverythingQuickSearch
             if (processName == null) return;
             if (processName == "SearchHost")
             {
+                // get animation before
+                SystemParametersInfo(SPI_GETCLIENTAREAANIMATION, 0, out originalAnimationState, 0);
+                
                 GetWindowRect(hwnd, out _searchHostRect);
                 _ = Task.Run(async () =>
                 {
@@ -363,7 +385,7 @@ namespace EverythingQuickSearch
                     await Task.Delay(550); // animation speed, Windows doesn't let get the rect until anima
                     GetWindowRect(hwnd, out _searchHostRect);
                 });
-
+                
                 _searchHwnd = hwnd;
                 _lookForKeyDown = true;
                 ChangeSelectedButton(AllFilterButton);
