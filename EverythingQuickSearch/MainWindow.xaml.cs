@@ -112,12 +112,24 @@ namespace EverythingQuickSearch
         private static extern bool SystemParametersInfo(int uiAction, int uiParam, out bool pvParam, int fWinIni);
         [DllImport("user32.dll", SetLastError = true)]
         private static extern bool SystemParametersInfo(int uiAction, int uiParam, bool pvParam, int fWinIni);
+        [DllImport("user32.dll", SetLastError = true)]
+        private static extern bool SystemParametersInfo(int uiAction, int uiParam, ref ANIMATIONINFO pvParam, int fWinIni);
 
         private const int SPI_GETCLIENTAREAANIMATION = 0x1042;
         private const int SPI_SETCLIENTAREAANIMATION = 0x1043;
+        private const int SPI_GETANIMATION = 0x0048;
+        private const int SPI_SETANIMATION = 0x0049;
 
         private const int SPIF_UPDATEINIFILE = 0x01;
         private const int SPIF_SENDCHANGE = 0x02;
+       
+        [StructLayout(LayoutKind.Sequential)]
+        public struct ANIMATIONINFO
+        {
+            public int cbSize;
+            public int iMinAnimate;
+        }
+
         #endregion
 
         private static readonly HashSet<System.Windows.Forms.Keys> NonCharacterKeys = new()
@@ -164,6 +176,7 @@ namespace EverythingQuickSearch
         private bool _isVisible = true;
         private bool _isShowing;
         private bool originalAnimationState;
+        private bool _originalMinAnimationState;
 
         private IntPtr _hookForeground = IntPtr.Zero;
         private WinEventDelegate _winEventDelegate;
@@ -286,6 +299,7 @@ namespace EverythingQuickSearch
             {
                 // disable animations
                 SystemParametersInfo(SPI_SETCLIENTAREAANIMATION, 0, false, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+                SetMinimizeAnimation(false);
 
                 PostMessage(_searchHwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
                 e.SuppressKeyPress = true;
@@ -369,6 +383,7 @@ namespace EverythingQuickSearch
                             Task.Run(() =>
                             {
                                 SystemParametersInfo(SPI_SETCLIENTAREAANIMATION, 0, originalAnimationState, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+                                SetMinimizeAnimation(_originalMinAnimationState);
                             });
 
                         }), DispatcherPriority.ApplicationIdle);
@@ -392,6 +407,7 @@ namespace EverythingQuickSearch
                 Task.Run(() =>
                 {
                     SystemParametersInfo(SPI_GETCLIENTAREAANIMATION, 0, out originalAnimationState, 0);
+                    _originalMinAnimationState = GetMinimizeAnimation();
 
                 });
                 GetWindowRect(hwnd, out _searchHostRect);
@@ -440,6 +456,21 @@ namespace EverythingQuickSearch
             _isShowing = false;
             LoadUwpApps();
 
+        }
+        public static bool GetMinimizeAnimation()
+        {
+            var info = new ANIMATIONINFO();
+            info.cbSize = Marshal.SizeOf<ANIMATIONINFO>();
+            SystemParametersInfo(SPI_GETANIMATION, info.cbSize, ref info, 0);
+
+            return info.iMinAnimate != 0;
+        }
+        public static void SetMinimizeAnimation(bool enabled)
+        {
+            var info = new ANIMATIONINFO();
+            info.cbSize = Marshal.SizeOf<ANIMATIONINFO>();
+            info.iMinAnimate = enabled ? 1 : 0;
+            SystemParametersInfo(SPI_SETANIMATION, info.cbSize, ref info, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
         }
 
         private static BitmapSource GetDefaultFolderIcon(int size)
