@@ -724,6 +724,8 @@ namespace EverythingQuickSearch
                 }
 
                 _hasMoreFileResults = tempList.Count >= PageSize;
+               
+                var existingPaths = new HashSet<string>(FileItems.Select(f => f.FullPath), StringComparer.OrdinalIgnoreCase);
 
                 await Application.Current.Dispatcher.InvokeAsync(() =>
                 {
@@ -744,7 +746,7 @@ namespace EverythingQuickSearch
 
                     foreach (var item in tempList)
                     {
-                        if (!_fileItemMap.ContainsKey(item.FullPath))
+                        if (existingPaths.Add(item.FullPath))
                         {
                             FileItems.Add(item);
                             _fileItemMap[item.FullPath] = item;
