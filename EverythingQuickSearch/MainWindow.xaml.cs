@@ -306,10 +306,6 @@ namespace EverythingQuickSearch
             }
             if (_lookForKeyDown)
             {
-                // disable animations
-                SystemParametersInfo(SPI_SETCLIENTAREAANIMATION, 0, false, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
-                SetMinimizeAnimation(false);
-
                 PostMessage(_searchHwnd, WM_CLOSE, IntPtr.Zero, IntPtr.Zero);
                 e.SuppressKeyPress = true;
                 GlobalHookKeyPress(sender, null);
@@ -335,21 +331,25 @@ namespace EverythingQuickSearch
                     {
                         //TODO: When EQS is window too small
                         //the category bar's buttons might not be visible
-                        double scaling = GetDpiForWindow(_searchHwnd) / 96.0;
-                        var source = PresentationSource.FromVisual(this);
-                        var transform = source.CompositionTarget.TransformFromDevice;
-
-                        Point dip = transform.Transform(new Point(_searchHostRect.left, _searchHostRect.top));
-                        this.Left = dip.X;
-                        this.Top = dip.Y + 12;
-                        this.Width = (_searchHostRect.right - _searchHostRect.left) / scaling;
-                        this.Height = ((_searchHostRect.bottom - _searchHostRect.top) / scaling) - 24;
-                        if (_isStartCentered)
+                        if (!IsVisible)
                         {
-                            this.Left += 12;
+                            double scaling = GetDpiForWindow(_searchHwnd) / 96.0;
+                            var source = PresentationSource.FromVisual(this);
+                            var transform = source.CompositionTarget.TransformFromDevice;
+
+                            Point dip = transform.Transform(new Point(_searchHostRect.left, _searchHostRect.top));
+                            this.Left = dip.X;
+                            this.Top = dip.Y + 12;
+                            this.Width = (_searchHostRect.right - _searchHostRect.left) / scaling;
+                            this.Height = ((_searchHostRect.bottom - _searchHostRect.top) / scaling) - 24;
+                            if (_isStartCentered)
+                            {
+                                this.Left += 12;
+                            }
+                            Debug.WriteLine("show");
+                            this.Show();
                         }
-                        Debug.WriteLine("show");
-                        this.Show();
+
                         if (e.KeyChar.ToString() == "\u0016") // paste (ctrl+v)
                         {
                             forwardText = Clipboard.GetText();
@@ -415,10 +415,10 @@ namespace EverythingQuickSearch
                 // get animation before
                 Task.Run(() =>
                 {
-                    SystemParametersInfo(SPI_GETCLIENTAREAANIMATION, 0, out originalAnimationState, 0);
-                    _originalMinAnimationState = GetMinimizeAnimation();
-
+                    SystemParametersInfo(SPI_SETCLIENTAREAANIMATION, 0, false, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+                    SetMinimizeAnimation(false);
                 });
+
                 GetWindowRect(hwnd, out _searchHostRect);
                 _ = Task.Run(async () =>
                 {
@@ -435,9 +435,13 @@ namespace EverythingQuickSearch
                     @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced",
                     "TaskbarAl", 1) == 0;
             }
-            else
+            else if (_lookForKeyDown)
             {
-                _lookForKeyDown = false;
+                _ = Task.Run(() =>
+                {
+                    Thread.Sleep(150); // prevent not forwarding keys when loosing focus on launch
+                    _lookForKeyDown = false;
+                });
             }
         }
 
@@ -450,7 +454,11 @@ namespace EverythingQuickSearch
             }
             base.OnDeactivated(e);
             this.Hide();
-
+            _ = Task.Run(() =>
+            {
+                SystemParametersInfo(SPI_SETCLIENTAREAANIMATION, 0, originalAnimationState, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+                SetMinimizeAnimation(_originalMinAnimationState);
+            });
             ChangeSelectedButton(AllFilterButton);
             SearchBarTextBox.Clear();
             if (_selectedItem != null)
@@ -1188,6 +1196,12 @@ namespace EverythingQuickSearch
         }
         private void FluentWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            Task.Run(() =>
+            {
+                // get animation
+                SystemParametersInfo(SPI_GETCLIENTAREAANIMATION, 0, out originalAnimationState, 0);
+                _originalMinAnimationState = GetMinimizeAnimation();
+            });
             // Remove harsh window shadow
             var hwnd = new WindowInteropHelper(this).Handle;
             int attr = 4;
