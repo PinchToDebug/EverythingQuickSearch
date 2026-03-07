@@ -902,7 +902,17 @@ namespace EverythingQuickSearch
                 if (e.ChangedButton == MouseButton.Right)
                 {
                     ContextMenu contextMenu = new ContextMenu();
-                    MenuItem open = new MenuItem { Header = "Open", Height = 34, Icon = new SymbolIcon(SymbolRegular.Open24, 16) };
+                    MenuItem open = new MenuItem
+                    {
+                        Header = new System.Windows.Controls.TextBlock
+                        {
+                            Text = "Open",
+                            FontSize = 13,
+                            Padding = new Thickness(4, 0, 4, 0)
+                        },
+                        Height = 31,
+                        Icon = new SymbolIcon(SymbolRegular.Open16, 16)
+                    };
                     contextMenu.Items.Add(open);
                     contextMenu.IsOpen = true;
                 }
@@ -936,7 +946,7 @@ namespace EverythingQuickSearch
                         Padding = padding
                     },
                     Height = height,
-                    Icon = new SymbolIcon(SymbolRegular.Open20, 16)
+                    Icon = new SymbolIcon(SymbolRegular.Open16, 16)
                 };
                 Debug.WriteLine(item.FullPath);
 
@@ -958,7 +968,7 @@ namespace EverythingQuickSearch
                         Padding = padding
                     },
                     Height = height,
-                    Icon = new SymbolIcon(SymbolRegular.FolderOpen20, 16)
+                    Icon = new SymbolIcon(SymbolRegular.FolderOpen16, 16)
                 };
                 openPath.Click += (_, _) =>
                 {
@@ -978,7 +988,7 @@ namespace EverythingQuickSearch
                         Padding = padding
                     },
                     Height = height,
-                    Icon = new SymbolIcon(SymbolRegular.Share20, 16)
+                    Icon = new SymbolIcon(SymbolRegular.Share16, 16)
                 };
                 copyPath.Click += (_, _) =>
                 {
@@ -994,7 +1004,7 @@ namespace EverythingQuickSearch
                         Padding = padding
                     },
                     Height = height,
-                    Icon = new SymbolIcon(SymbolRegular.Copy20, 16)
+                    Icon = new SymbolIcon(SymbolRegular.Copy16, 16)
                 };
                 copyFolderPath.Click += (_, _) =>
                 {
