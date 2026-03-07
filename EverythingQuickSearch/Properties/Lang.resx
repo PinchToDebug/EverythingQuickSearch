@@ -244,4 +244,19 @@ regex filtering is enabled</value>
   <data name="SearchWindow_Item_Actions_OpenFile" xml:space="preserve">
     <value>Open</value>
   </data>
+  <data name="Everything_Error_MissingDll_MessageBox_TextBlock" xml:space="preserve">
+    <value>Everything64.dll is missing!</value>
+  </data>
+  <data name="Everything_Error_MissingDll_MessageBox_UrlText" xml:space="preserve">
+    <value>Download Everything-SDK.zip</value>
+  </data>
+  <data name="Everything_Error_MissingDll_MessageBox_TextBlock2" xml:space="preserve">
+    <value>Extract Everything64.dll from Everything-SDK.zip\dll\ and place it next to "EverythingQuickSearch.exe"</value>
+  </data>
+  <data name="Everything_Error_MissingDll_MessageBox_PrimaryButtonText" xml:space="preserve">
+    <value>Retry</value>
+  </data>
+  <data name="Everything_Error_MissingDll_MessageBox_CloseButtonText" xml:space="preserve">
+    <value>Exit</value>
+  </data>
 </root>

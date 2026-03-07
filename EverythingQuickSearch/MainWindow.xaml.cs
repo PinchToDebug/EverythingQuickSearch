@@ -29,6 +29,7 @@ using MenuItem = Wpf.Ui.Controls.MenuItem;
 using Point = System.Windows.Point;
 using Registry = Microsoft.Win32.Registry;
 using Task = System.Threading.Tasks.Task;
+using TextBlock = System.Windows.Controls.TextBlock;
 using TextBox = Wpf.Ui.Controls.TextBox;
 
 namespace EverythingQuickSearch
@@ -275,7 +276,7 @@ namespace EverythingQuickSearch
 
         }
 
-        protected override void OnSourceInitialized(EventArgs e)
+        protected override async void OnSourceInitialized(EventArgs e)
         {
             base.OnSourceInitialized(e);
             this.Visibility = Visibility.Hidden;
@@ -287,7 +288,68 @@ namespace EverythingQuickSearch
                 ref disable,
                 sizeof(int));
 
-            _everything = new EverythingService(this);
+            while (_everything == null)
+            {
+                try
+                {
+                    _everything = new EverythingService(this);
+                    break;
+                }
+                catch (Exception)
+                {
+                    var stackPanel = new StackPanel
+                    {
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center
+                    };
+
+                    stackPanel.Children.Add(new TextBlock
+                    {
+                        Text = Lang.Everything_Error_MissingDll_MessageBox_TextBlock,
+                        TextAlignment = TextAlignment.Center,
+                        Padding = new Thickness(0, 0, 0, 10)
+                    });
+
+                    stackPanel.Children.Add(new HyperlinkButton
+                    {
+                        Content = "https://www.voidtools.com/downloads/",
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        HorizontalContentAlignment = HorizontalAlignment.Center,
+                        VerticalContentAlignment = VerticalAlignment.Center,
+                        NavigateUri = "https://www.voidtools.com/downloads/"
+                    });
+
+                    stackPanel.Children.Add(new TextBlock
+                    {
+                        Text = Lang.Everything_Error_MissingDll_MessageBox_TextBlock2,
+                        TextAlignment = TextAlignment.Left,
+                        FontSize = 13,
+                        TextWrapping = TextWrapping.Wrap,
+                        Padding = new Thickness(0, 15, 0, 10)
+                    });
+
+                    var dialog = new Wpf.Ui.Controls.MessageBox
+                    {
+                        Title = "Everything Quick Search",
+                        Content = stackPanel,
+                        PrimaryButtonText = Lang.Everything_Error_MissingDll_MessageBox_PrimaryButtonText,
+                        CloseButtonText = Lang.Everything_Error_MissingDll_MessageBox_CloseButtonText,
+                        MinWidth = 10
+                    };
+
+                    var result = await dialog.ShowDialogAsync();
+
+                    if (result == Wpf.Ui.Controls.MessageBoxResult.Primary)
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        Application.Current.Shutdown();
+                        return;
+                    }
+                }
+            }
             LoadSearchIcon();
         }
 

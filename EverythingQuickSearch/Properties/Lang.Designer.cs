@@ -61,6 +61,51 @@ namespace EverythingQuickSearch.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Exit.
+        /// </summary>
+        public static string Everything_Error_MissingDll_MessageBox_CloseButtonText {
+            get {
+                return ResourceManager.GetString("Everything_Error_MissingDll_MessageBox_CloseButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Retry.
+        /// </summary>
+        public static string Everything_Error_MissingDll_MessageBox_PrimaryButtonText {
+            get {
+                return ResourceManager.GetString("Everything_Error_MissingDll_MessageBox_PrimaryButtonText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Everything64.dll is missing!.
+        /// </summary>
+        public static string Everything_Error_MissingDll_MessageBox_TextBlock {
+            get {
+                return ResourceManager.GetString("Everything_Error_MissingDll_MessageBox_TextBlock", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Extract Everything64.dll from Everything-SDK.zip\dll\ and place it next to &quot;EverythingQuickSearch.exe&quot;.
+        /// </summary>
+        public static string Everything_Error_MissingDll_MessageBox_TextBlock2 {
+            get {
+                return ResourceManager.GetString("Everything_Error_MissingDll_MessageBox_TextBlock2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Download Everything-SDK.zip.
+        /// </summary>
+        public static string Everything_Error_MissingDll_MessageBox_UrlText {
+            get {
+                return ResourceManager.GetString("Everything_Error_MissingDll_MessageBox_UrlText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to All.
         /// </summary>
         public static string SearchWindow_CategoryButton_All {

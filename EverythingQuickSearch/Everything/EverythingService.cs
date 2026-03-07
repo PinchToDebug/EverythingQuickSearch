@@ -19,8 +19,15 @@ namespace EverythingQuickSearch
             _source = HwndSource.FromHwnd(_hwnd);
             _source.AddHook(WndProc);
 
-            Everything_SetReplyWindow(_hwnd);
-            Everything_SetReplyID(REPLY_ID);
+            try
+            {
+                Everything_SetReplyWindow(_hwnd);
+                Everything_SetReplyID(REPLY_ID);
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
 
         public Task<List<FileItem>> SearchAsync(string searchText, int setSort, int offset, int maxResults, bool enableRegex)

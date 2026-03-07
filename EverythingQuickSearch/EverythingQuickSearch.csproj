@@ -38,7 +38,7 @@
 
   <ItemGroup>
     <Content Include="Everything64.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
 
