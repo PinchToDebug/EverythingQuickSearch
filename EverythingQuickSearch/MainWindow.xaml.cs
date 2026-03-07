@@ -923,7 +923,21 @@ namespace EverythingQuickSearch
             if (e.ChangedButton == MouseButton.Right)
             {
                 ContextMenu contextMenu = new ContextMenu();
-                MenuItem open = new MenuItem { Header = "Open", Height = 34, Icon = new SymbolIcon(SymbolRegular.Open24, 16) };
+                int fontSize = 13;
+                int height = 31;
+                Thickness padding = new Thickness(4, 0, 4, 0);
+
+                MenuItem open = new MenuItem
+                {
+                    Header = new System.Windows.Controls.TextBlock
+                    {
+                        Text = "Open",
+                        FontSize = fontSize,
+                        Padding = padding
+                    },
+                    Height = height,
+                    Icon = new SymbolIcon(SymbolRegular.Open20, 16)
+                };
                 Debug.WriteLine(item.FullPath);
 
                 open.Click += (_, _) =>
@@ -935,7 +949,17 @@ namespace EverythingQuickSearch
                     catch { }
                 };
 
-                MenuItem openPath = new MenuItem { Header = "Open path", Height = 34, Icon = new SymbolIcon(SymbolRegular.FolderOpen24, 16) };
+                MenuItem openPath = new MenuItem
+                {
+                    Header = new System.Windows.Controls.TextBlock
+                    {
+                        Text = "Open Path",
+                        FontSize = fontSize,
+                        Padding = padding
+                    },
+                    Height = height,
+                    Icon = new SymbolIcon(SymbolRegular.FolderOpen20, 16)
+                };
                 openPath.Click += (_, _) =>
                 {
                     try
@@ -945,13 +969,33 @@ namespace EverythingQuickSearch
                     catch { }
                 };
 
-                MenuItem copyPath = new MenuItem { Header = "Copy as path", Height = 34, Icon = new SymbolIcon(SymbolRegular.Share24, 16) };
+                MenuItem copyPath = new MenuItem
+                {
+                    Header = new System.Windows.Controls.TextBlock
+                    {
+                        Text = "Copy as path",
+                        FontSize = fontSize,
+                        Padding = padding
+                    },
+                    Height = height,
+                    Icon = new SymbolIcon(SymbolRegular.Share20, 16)
+                };
                 copyPath.Click += (_, _) =>
                 {
                     Clipboard.SetText(item.FullPath);
                 };
 
-                MenuItem copyFolderPath = new MenuItem { Header = "Copy folder path", Height = 34, Icon = new SymbolIcon(SymbolRegular.Copy24, 16) };
+                MenuItem copyFolderPath = new MenuItem
+                {
+                    Header = new System.Windows.Controls.TextBlock
+                    {
+                        Text = "Copy folder path",
+                        FontSize = fontSize,
+                        Padding = padding
+                    },
+                    Height = height,
+                    Icon = new SymbolIcon(SymbolRegular.Copy20, 16)
+                };
                 copyFolderPath.Click += (_, _) =>
                 {
                     Clipboard.SetText(Path.GetDirectoryName(item.FullPath));
@@ -1559,7 +1603,7 @@ namespace EverythingQuickSearch
                 StaysOpenOnClick = true,
                 Icon = new SymbolIcon { Symbol = SymbolRegular.ArrowSort20 }
             };
-          
+
             HashSet<String> sortValues = new HashSet<string> {"Name","Path","Size","Extension","Type","Date created",
                                                               "Date modified","Attributes","File list filename","Run count",
                                                               "Date recently changed","Date Accessed","Date run"};
@@ -1633,7 +1677,7 @@ namespace EverythingQuickSearch
                     FileItems.Clear();
                     _fileItemMap.Clear();
                     SearchBarTextBox_TextChanged(SearchBarTextBox, null!);
-                    
+
                     _setSort--;
                     ascendingMenuItem.Icon.SetResourceReference(Button.ForegroundProperty, "TextFillColorPrimaryBrush");
                     descendingMenuItem.Icon.Foreground = Brushes.Transparent;
@@ -1772,6 +1816,6 @@ namespace EverythingQuickSearch
 
         #endregion
 
-      
+
     }
 }
