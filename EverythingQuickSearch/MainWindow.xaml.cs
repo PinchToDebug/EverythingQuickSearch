@@ -480,7 +480,7 @@ namespace EverythingQuickSearch
             if (processName == null) return;
             if (processName == "SearchHost")
             {
-                // get animation before
+                // set animation off
                 Task.Run(() =>
                 {
                     SystemParametersInfo(SPI_SETCLIENTAREAANIMATION, 0, false, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
@@ -509,6 +509,13 @@ namespace EverythingQuickSearch
                 _ = Task.Run(() =>
                 {
                     Thread.Sleep(150); // prevent not forwarding keys when loosing focus on launch
+
+                    //set animations back to oiginal state
+                    Task.Run(() =>
+                    {
+                        SystemParametersInfo(SPI_SETCLIENTAREAANIMATION, 0, originalAnimationState, SPIF_UPDATEINIFILE | SPIF_SENDCHANGE);
+                        SetMinimizeAnimation(_originalMinAnimationState);
+                    });
                     _lookForKeyDown = false;
                 });
             }
@@ -1377,7 +1384,7 @@ namespace EverythingQuickSearch
                 _selectedCategoryButton.SetResourceReference(Button.ForegroundProperty, "TextFillColorPrimaryBrush");
             }
             _selectedCategoryButton = newButton;
-            
+
             _selectedCategoryButton.SetResourceReference(Button.BackgroundProperty, "AccentTextFillColorTertiaryBrush");
 
             var newBrush = new SolidColorBrush(Colors.Transparent);
