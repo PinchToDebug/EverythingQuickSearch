@@ -1843,14 +1843,28 @@ namespace EverythingQuickSearch
                 }
             }
         }
-        private void RoundedDropDownButtonButton_MouseEnter(object sender, MouseEventArgs e)
+        private void RoundedButton_MouseEnter(object sender, MouseEventArgs e)
         {
-            ((DropDownButton)sender).Background = (Brush)Application.Current.Resources["CardBackgroundFillColorDefaultBrush"];
+            if (sender is DropDownButton btn)
+            {
+                btn.Background = (Brush)Application.Current.Resources["CardBackgroundFillColorDefaultBrush"];
+            }
+            else if (sender is Button btn2)
+            {
+                btn2.Background = (Brush)Application.Current.Resources["CardBackgroundFillColorDefaultBrush"];
+            }
         }
 
-        private void RoundedDropDownButtonButton_MouseLeave(object sender, MouseEventArgs e)
+        private void RoundedButton_MouseLeave(object sender, MouseEventArgs e)
         {
-            ((DropDownButton)sender).Background = Brushes.Transparent;
+            if (sender is DropDownButton btn)
+            {
+                btn.Background = Brushes.Transparent;
+            }
+            else if (sender is Button btn2)
+        {
+                btn2.Background = Brushes.Transparent;
+            }
         }
 
 

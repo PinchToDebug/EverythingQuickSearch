@@ -53,7 +53,7 @@
             </Setter>
         </Style>
 
-        <Style x:Key="RoundedDropDownButtonButton" TargetType="Button">
+        <Style x:Key="RoundedButton" TargetType="Button">
             <Setter Property="Height" Value="34"/>
             <Setter Property="Padding" Value="10,0"/>
             <Setter Property="Margin" Value="0,0,2,0"/>
@@ -309,9 +309,9 @@
                 </StackPanel>
             </ScrollViewer>
             <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <ui:DropDownButton Style="{StaticResource RoundedDropDownButtonButton}"
-                                   MouseEnter="RoundedDropDownButtonButton_MouseEnter"
-                                   MouseLeave="RoundedDropDownButtonButton_MouseLeave"
+                <ui:DropDownButton Style="{StaticResource RoundedButton}"
+                                   MouseEnter="RoundedButton_MouseEnter"
+                                   MouseLeave="RoundedButton_MouseLeave"
                                    BorderThickness="0"
                                    HorizontalAlignment="Right">
 
@@ -323,9 +323,11 @@
                                    FontSize="18"/>
                 </ui:DropDownButton>
                
-                <ui:DropDownButton Style="{StaticResource RoundedDropDownButtonButton}"
-                                   MouseEnter="RoundedDropDownButtonButton_MouseEnter"
-                                   MouseLeave="RoundedDropDownButtonButton_MouseLeave"
+                <ui:Button Style="{StaticResource RoundedButton}"
+                           x:Name="SettingsButtons"
+                           Click="SettingsButtons_Click"
+                           MouseEnter="RoundedButton_MouseEnter"
+                           MouseLeave="RoundedButton_MouseLeave"
                                    BorderThickness="0"
                                    Visibility="Collapsed"
                                    HorizontalAlignment="Right">
@@ -336,7 +338,7 @@
 
                     <ui:SymbolIcon Symbol="Settings20"
                                    FontSize="18"/>
-                </ui:DropDownButton>
+                </ui:Button>
             </StackPanel>
 
         </Grid>
