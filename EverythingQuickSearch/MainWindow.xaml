@@ -166,16 +166,16 @@
     </Window.Resources>
 
 
+    
+        <Grid Margin="10,16,10,10" >
+            
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-    <Grid Margin="10,16,10,10" >
-
-        <Grid.RowDefinitions>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="auto"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-        <Border Grid.Row="0" CornerRadius="15"
+            <Border Grid.Row="0" CornerRadius="15"
                 x:Name="SearchBorder"
                 Background="{DynamicResource ApplicationBackgroundBrush}"
                 BorderBrush="{DynamicResource ControlStrokeColorDefaultBrush}"
@@ -183,15 +183,15 @@
                 Height="32"
                 BorderThickness="1"
                 VerticalAlignment="Top">
-            <Grid VerticalAlignment="Center"
+                <Grid VerticalAlignment="Center"
                   Margin="8,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto"/>
-                    <ColumnDefinition Width="*"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
 
-                <Image x:Name="SearchIconImage"
+                    <Image x:Name="SearchIconImage"
                        Grid.Column="0"
                        Height="16"
                        Margin="7,0,0,0"
@@ -199,7 +199,7 @@
                        RenderOptions.BitmapScalingMode="Fant"
                        UseLayoutRounding="True"/>
 
-                <ui:TextBox Foreground="{DynamicResource TextFillColorPrimaryBrush}"
+                    <ui:TextBox Foreground="{DynamicResource TextFillColorPrimaryBrush}"
                             x:Name="SearchBarTextBox"
                             Grid.Column="1"
                             CaretBrush="{DynamicResource TextFillColorPrimaryBrush}"
@@ -208,16 +208,16 @@
                             Margin="10,0,0,0"
                             VerticalAlignment="Center"
                             TextChanged="SearchBarTextBox_TextChanged">
-                    <ui:TextBox.Style>
-                        <Style TargetType="ui:TextBox">
-                            <Setter Property="Background" Value="Transparent"/>
-                            <Setter Property="BorderBrush" Value="Transparent"/>
-                            <Setter Property="BorderThickness" Value="0"/>
-                            <Setter Property="VerticalContentAlignment" Value="Center"/>
-                        </Style>
-                    </ui:TextBox.Style>
-                </ui:TextBox>
-                <Button Content=".*"
+                        <ui:TextBox.Style>
+                            <Style TargetType="ui:TextBox">
+                                <Setter Property="Background" Value="Transparent"/>
+                                <Setter Property="BorderBrush" Value="Transparent"/>
+                                <Setter Property="BorderThickness" Value="0"/>
+                                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                            </Style>
+                        </ui:TextBox.Style>
+                    </ui:TextBox>
+                    <Button Content=".*"
                         x:Name="RegexButton"
                         Click="RegexButton_Click"
                         FontWeight="Medium"
@@ -228,23 +228,23 @@
                         Width="26"
                         Padding="0"
                         VerticalAlignment="Center"/>
-            </Grid>
-        </Border>
+                </Grid>
+            </Border>
 
 
-        <Grid Grid.Row="1" Height="40" Margin="10">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="Auto"/>
-            </Grid.ColumnDefinitions>
+            <Grid Grid.Row="1" Height="40" Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
 
-            <ScrollViewer HorizontalScrollBarVisibility="Auto"
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"
                           VerticalScrollBarVisibility="Disabled"
                           HorizontalAlignment="Stretch"
                           CanContentScroll="True">
 
-                <StackPanel Orientation="Horizontal" Grid.Column="0">
-                    <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_All}"
+                    <StackPanel Orientation="Horizontal" Grid.Column="0">
+                        <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_All}"
                         x:Name="AllFilterButton"
                         MouseEnter="FilterButton_MouseEnter"
                         Tag="{x:Static local:Category.All}"
@@ -252,14 +252,14 @@
                         Background="{DynamicResource AccentTextFillColorTertiaryBrush}"
                         Click="CategoryButton_Click"/>
 
-                    <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Files}"
+                        <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Files}"
                         Tag="{x:Static local:Category.File}"
                         x:Name="FilesFilterButton"
                         MouseEnter="FilterButton_MouseEnter"
                         Style="{StaticResource RoundedFilterButton}"
                         Click="CategoryButton_Click"/>
 
-                    <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Folders}"
+                        <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Folders}"
                         Tag="{x:Static local:Category.Folder}"
                         x:Name="FoldersFilterButton"
                         MouseEnter="FilterButton_MouseEnter"
@@ -267,10 +267,10 @@
                         Click="CategoryButton_Click"
                         Margin="0,0,4,0"/>
 
-                    <Separator Height="25"/>
+                        <Separator Height="25"/>
 
 
-                    <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Executables}"
+                        <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Executables}"
                         x:Name="AppsFilterButton"
                         MouseEnter="FilterButton_MouseEnter"
                         Tag="{x:Static local:Category.Executable}"
@@ -278,126 +278,120 @@
                         Click="CategoryButton_Click"
                         Margin="4,0,4,0"/>
 
-                    <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Documents}"
+                        <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Documents}"
                         Tag="{x:Static local:Category.Document}"
                         x:Name="FilterButton"
                         MouseEnter="FilterButton_MouseEnter"
                         Click="CategoryButton_Click"
                         Style="{StaticResource RoundedFilterButton}"/>
 
-                    <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Images}"
+                        <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Images}"
                         Tag="{x:Static local:Category.Image}"
                         x:Name="ImagesFilterButton"
                         MouseEnter="FilterButton_MouseEnter"
                         Click="CategoryButton_Click"
                         Style="{StaticResource RoundedFilterButton}"/>
 
-                    <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Videos}"
+                        <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Videos}"
                         Tag="{x:Static local:Category.Video}"
                         x:Name="VideoFilterButton"
                         MouseEnter="FilterButton_MouseEnter"
                         Click="CategoryButton_Click"
                         Style="{StaticResource RoundedFilterButton}"/>
 
-                    <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Compressed}"
+                        <Button Content="{x:Static prop:Lang.SearchWindow_CategoryButton_Compressed}"
                         Tag="{x:Static local:Category.Compressed}"
                         x:Name="CompressedFilterButton"
                         MouseEnter="FilterButton_MouseEnter"
                         Click="CategoryButton_Click"
                         Style="{StaticResource RoundedFilterButton}"/>
 
-                </StackPanel>
-            </ScrollViewer>
-            <StackPanel Orientation="Horizontal" Grid.Column="1">
-                <ui:DropDownButton Style="{StaticResource RoundedButton}"
+                    </StackPanel>
+                </ScrollViewer>
+                <StackPanel Orientation="Horizontal" Grid.Column="1">
+                    <ui:DropDownButton Style="{StaticResource RoundedButton}"
                                    MouseEnter="RoundedButton_MouseEnter"
                                    MouseLeave="RoundedButton_MouseLeave"
                                    BorderThickness="0"
                                    HorizontalAlignment="Right">
 
-                    <ui:DropDownButton.Flyout>
-                        <ContextMenu x:Name="SortByContextMenu"/>
-                    </ui:DropDownButton.Flyout>
+                        <ui:DropDownButton.Flyout>
+                            <ContextMenu x:Name="SortByContextMenu"/>
+                        </ui:DropDownButton.Flyout>
 
-                    <ui:SymbolIcon Symbol="ArrowSort20" 
+                        <ui:SymbolIcon Symbol="ArrowSort20" 
                                    FontSize="18"/>
-                </ui:DropDownButton>
-               
-                <ui:Button Style="{StaticResource RoundedButton}"
+                    </ui:DropDownButton>
+
+                    <ui:Button Style="{StaticResource RoundedButton}"
                            x:Name="SettingsButtons"
                            Click="SettingsButtons_Click"
                            MouseEnter="RoundedButton_MouseEnter"
                            MouseLeave="RoundedButton_MouseLeave"
-                                   BorderThickness="0"
-                                   Visibility="Collapsed"
-                                   HorizontalAlignment="Right">
-
-                    <ui:DropDownButton.Flyout>
-                        <ContextMenu x:Name="SortByContextMenu3"/>
-                    </ui:DropDownButton.Flyout>
-
-                    <ui:SymbolIcon Symbol="Settings20"
+                           BorderThickness="0"
+                           HorizontalAlignment="Right">
+                        <ui:SymbolIcon Symbol="Settings20"
                                    FontSize="18"/>
-                </ui:Button>
-            </StackPanel>
+                    </ui:Button>
+                </StackPanel>
 
-        </Grid>
+            </Grid>
 
 
-        <Grid Grid.Row="2" Margin="0,0,0,0" 
+            <Grid Grid.Row="2" Margin="0,0,0,0" 
               KeyboardNavigation.TabNavigation="None">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="70*"/>
-                <ColumnDefinition Width="45*"/>
-            </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="70*"/>
+                    <ColumnDefinition Width="45*"/>
+                </Grid.ColumnDefinitions>
 
-            <Grid Grid.Column="0" KeyboardNavigation.TabNavigation="None">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="auto"/>
-                    <RowDefinition Height="*"/>
-                </Grid.RowDefinitions>
+                <Grid Grid.Column="0" KeyboardNavigation.TabNavigation="None">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
 
-                <ui:DynamicScrollViewer Grid.Row="0" 
+                    <ui:DynamicScrollViewer Grid.Row="0" 
                                         Focusable="False" 
                                         x:Name="App_ScrollViewer" 
                                         IsTabStop="False" 
                                         VerticalScrollBarVisibility="Auto">
 
-                    <ItemsControl x:Name="AppItems_ItemsControl"
+                        <ItemsControl x:Name="AppItems_ItemsControl"
                                   ItemsSource="{Binding AppItems}" 
                                   ItemTemplate="{StaticResource AppFileTemplate}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
 
-                </ui:DynamicScrollViewer>
+                    </ui:DynamicScrollViewer>
 
 
-                <Separator Grid.Row="1"
+                    <Separator Grid.Row="1"
                            x:Name="App_ScrollViewer_Separator" 
                            HorizontalAlignment="Center"
                            Height="7"
                            Margin="10,3,20,3"
                            Width="400"/>
-                <Grid Grid.Row="2" 
+                    <Grid Grid.Row="2" 
                       Visibility="Collapsed"
                       x:Name="NoSearchResultsGrid"
                       Margin="10,3,20,3">
-                    <StackPanel Orientation="Horizontal">
-                        <ui:SymbolIcon x:Name="NoSearchResultsIcon"
+                        <StackPanel Orientation="Horizontal">
+                            <ui:SymbolIcon x:Name="NoSearchResultsIcon"
                                        Symbol="Search24"
                                        FontSize="32"
                                        VerticalAlignment="Top"/>
-                        <TextBlock FontSize="16"
+                            <TextBlock FontSize="16"
                                    Margin="10,5"
                                    x:Name="NoSearchResultsTextBlock"/>
-                    </StackPanel>
-                </Grid>
-                <ui:DynamicScrollViewer Grid.Row="2" 
+                        </StackPanel>
+                    </Grid>
+                    <ui:DynamicScrollViewer Grid.Row="2" 
                                         Focusable="False" 
                                         x:Name="scrollViewer" 
                                         ScrollChanged="scrollViewer_ScrollChanged"
@@ -405,47 +399,47 @@
                                         IsTabStop="False" 
                                         VerticalScrollBarVisibility="Auto">
 
-                    <ItemsControl x:Name="FileItems_ItemsControl"
+                        <ItemsControl x:Name="FileItems_ItemsControl"
                                   ItemsSource="{Binding FileItems}"
                                   
                                   ItemTemplate="{StaticResource FileItemTemplate}">
-                        <ItemsControl.ItemsPanel>
-                            <ItemsPanelTemplate>
-                                <VirtualizingStackPanel/>
-                            </ItemsPanelTemplate>
-                        </ItemsControl.ItemsPanel>
-                    </ItemsControl>
-                </ui:DynamicScrollViewer>
+                            <ItemsControl.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <VirtualizingStackPanel/>
+                                </ItemsPanelTemplate>
+                            </ItemsControl.ItemsPanel>
+                        </ItemsControl>
+                    </ui:DynamicScrollViewer>
 
-            </Grid>
+                </Grid>
 
-            <Border Grid.Column="1"
+                <Border Grid.Column="1"
                     CornerRadius="8"
                     Background="{DynamicResource CardBackgroundFillColorDefaultBrush}"
                     ClipToBounds="True">
-                <Border.OpacityMask>
-                    <VisualBrush>
-                        <VisualBrush.Visual>
-                            <Border Background="Black"
+                    <Border.OpacityMask>
+                        <VisualBrush>
+                            <VisualBrush.Visual>
+                                <Border Background="Black"
                                     SnapsToDevicePixels="True"
                                     CornerRadius="{Binding CornerRadius, RelativeSource={RelativeSource AncestorType=Border}}"
                                     Width="{Binding ActualWidth, RelativeSource={RelativeSource AncestorType=Border}}"
                                     Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorType=Border}}"/>
-                        </VisualBrush.Visual>
-                    </VisualBrush>
-                </Border.OpacityMask>
-                <ui:DynamicScrollViewer VerticalScrollBarVisibility="Auto" x:Name="FileDetails_DynamicScrollViewer">
-                    <Grid >
-                        <StackPanel Orientation="Vertical">
+                            </VisualBrush.Visual>
+                        </VisualBrush>
+                    </Border.OpacityMask>
+                    <ui:DynamicScrollViewer VerticalScrollBarVisibility="Auto" x:Name="FileDetails_DynamicScrollViewer">
+                        <Grid >
+                            <StackPanel Orientation="Vertical">
 
-                            <StackPanel HorizontalAlignment="Center" 
+                                <StackPanel HorizontalAlignment="Center" 
                                         VerticalAlignment="Top"
                                         Margin="00,28,0,0"
                                         Width="400">
 
-                                <Border CornerRadius="8"
+                                    <Border CornerRadius="8"
                                     ClipToBounds="True">
-                                    <ui:Image x:Name="SelectedItemPreviewImage"
+                                        <ui:Image x:Name="SelectedItemPreviewImage"
                                        Cursor="Hand"
                                        MouseDown="SelectedItemPreviewImage_MouseDown"
                                        MouseUp="Item_MouseUp"
@@ -455,10 +449,10 @@
                                        SnapsToDevicePixels="True"
                                        RenderOptions.BitmapScalingMode="Fant"
                                        UseLayoutRounding="True">
-                                    </ui:Image>
-                                </Border>
+                                        </ui:Image>
+                                    </Border>
 
-                                <TextBlock x:Name="SelectedItemPreviewName"
+                                    <TextBlock x:Name="SelectedItemPreviewName"
                                            HorizontalAlignment="Center" 
                                            TextWrapping="Wrap"
                                            TextAlignment="Center"
@@ -469,50 +463,50 @@
                                            Padding="0,10,0,0"
                                            FontSize="16"/>
 
-                                <Separator Width="280"
+                                    <Separator Width="280"
                                            HorizontalAlignment="Center"
                                            Margin="0,6" />
 
-                            </StackPanel>
+                                </StackPanel>
 
 
-                            <Grid x:Name="FilePreviewGrid"
+                                <Grid x:Name="FilePreviewGrid"
                                   Visibility="Collapsed"
                                   Margin="20,0">
 
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
 
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                    <RowDefinition Height="Auto"/>
-                                </Grid.RowDefinitions>
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
 
-                                <TextBlock Grid.Row="0"
+                                    <TextBlock Grid.Row="0"
                                            Grid.Column="0"
                                            FontSize="12"
                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"                                          
                                            Text="{x:Static prop:Lang.SearchWindow_Item_Details_Location}"/>
 
-                                <TextBlock x:Name="FilePreviewMPath"
+                                    <TextBlock x:Name="FilePreviewMPath"
                                            
                                            Grid.Column="1"
                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                            FontSize="12"
                                            TextWrapping="Wrap" />
 
-                                <TextBlock Grid.Row="1"
+                                    <TextBlock Grid.Row="1"
                                            Grid.Column="0" 
                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                            Padding="0,10,20,0"
                                            FontSize="12"
                                            Text="{x:Static prop:Lang.SearchWindow_Item_Details_LastModified}"/>
 
-                                <TextBlock x:Name="FilePreviewModDate"
+                                    <TextBlock x:Name="FilePreviewModDate"
                                            Grid.Row="1"
                                            Grid.Column="1"
                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
@@ -520,7 +514,7 @@
                                            FontSize="12"
                                            TextWrapping="Wrap"/>
 
-                                <TextBlock x:Name="FilePreviewResolutionTextBlock"
+                                    <TextBlock x:Name="FilePreviewResolutionTextBlock"
                                            Grid.Row="2"
                                            Grid.Column="0"
                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
@@ -528,7 +522,7 @@
                                            FontSize="12"
                                            Text="{x:Static prop:Lang.SearchWindow_Item_Details_Resolution}"/>
 
-                                <TextBlock x:Name="FilePreviewResolution"
+                                    <TextBlock x:Name="FilePreviewResolution"
                                            Grid.Row="2"
                                            Grid.Column="1"
                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
@@ -537,28 +531,28 @@
                                            FontSize="12"/>
 
 
-                                <TextBlock Grid.Row="3"
+                                    <TextBlock Grid.Row="3"
                                            Grid.Column="0"
                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                            Padding="0,10,20,0"
                                            FontSize="12"
                                            Text="{x:Static prop:Lang.SearchWindow_Item_Details_Size}"/>
 
-                                <TextBlock x:Name="FilePreviewSize"
+                                    <TextBlock x:Name="FilePreviewSize"
                                            Grid.Row="3"
                                            Grid.Column="1"
                                            Foreground="{DynamicResource TextFillColorSecondaryBrush}"
                                            Padding="0,10,0,0"
                                            FontSize="12"/>
-                            </Grid>
+                                </Grid>
 
-                            <Separator x:Name="ActionSeparator"
+                                <Separator x:Name="ActionSeparator"
                                    Width="280"
                                    Visibility="Collapsed"
                                    HorizontalAlignment="Center"
                                    Margin="0,6" />
 
-                            <Border x:Name="OpenFileBorder"
+                                <Border x:Name="OpenFileBorder"
                                 MouseDown="OpenFileBorder_MouseDown"
                                 CornerRadius="5"
                                 MouseEnter="Border_MouseEnter"
@@ -566,25 +560,25 @@
                                 Background="Transparent"
                                 Height="30"  
                                 Margin="10,0,10,5">
-                                <StackPanel 
+                                    <StackPanel 
                                     Orientation="Horizontal"
                                     Margin="5,0" 
                                     VerticalAlignment="Center">
 
-                                    <ui:SymbolIcon 
+                                        <ui:SymbolIcon 
                                         Symbol="Open16"
                                         Margin="3,0,0,0"
                                         FontSize="16" 
                                         VerticalAlignment="Center"/>
 
-                                    <TextBlock Text="{x:Static prop:Lang.SearchWindow_Item_Actions_OpenFile}"
+                                        <TextBlock Text="{x:Static prop:Lang.SearchWindow_Item_Actions_OpenFile}"
                                                Margin="8,0" 
                                                FontSize="13" 
                                                TextAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
+                                    </StackPanel>
+                                </Border>
 
-                            <Border x:Name="RunasAdminBorder"
+                                <Border x:Name="RunasAdminBorder"
                                     CornerRadius="5"
                                     Height="30"  
                                     MouseEnter="Border_MouseEnter"
@@ -592,24 +586,24 @@
                                     MouseDown="RunasAdminBorder_MouseDown"
                                     Background="Transparent"
                                     Margin="10,0,10,5">
-                                <StackPanel x:Name="RunasAdmin"
+                                    <StackPanel x:Name="RunasAdmin"
                                             Orientation="Horizontal"
                                             Margin="5,0"
                                             VerticalAlignment="Center">
 
-                                    <ui:SymbolIcon Symbol="CalendarShield16"
+                                        <ui:SymbolIcon Symbol="CalendarShield16"
                                                    Margin="3,0,0,0"
                                                    FontSize="16"
                                                    VerticalAlignment="Center"/>
 
-                                    <TextBlock Text="{x:Static prop:Lang.SearchWindow_Item_Actions_RunAsAdministrator}"
+                                        <TextBlock Text="{x:Static prop:Lang.SearchWindow_Item_Actions_RunAsAdministrator}"
                                                Margin="8,0"
                                                FontSize="13" 
                                                TextAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
+                                    </StackPanel>
+                                </Border>
 
-                            <Border x:Name="OpenFileLocationBorder"
+                                <Border x:Name="OpenFileLocationBorder"
                                     MouseDown="OpenFileLocationBorder_MouseDown"
                                     CornerRadius="5"
                                     Height="30"  
@@ -617,34 +611,34 @@
                                     MouseLeave="Border_MouseLeave"
                                     Background="Transparent"
                                    Margin="10,0">
-                                <StackPanel Orientation="Horizontal"
+                                    <StackPanel Orientation="Horizontal"
                                             Margin="5,0"
                                             VerticalAlignment="Center">
-                                    <ui:SymbolIcon Symbol="FolderOpen16"
+                                        <ui:SymbolIcon Symbol="FolderOpen16"
                                                    Margin="3,0,0,0"
                                                    FontSize="16"
                                                    VerticalAlignment="Center"/>
-                                    <TextBlock Text="{x:Static prop:Lang.SearchWindow_Item_Actions_OpenFileLocation}"
+                                        <TextBlock Text="{x:Static prop:Lang.SearchWindow_Item_Actions_OpenFileLocation}"
                                                Margin="8,0"
                                                FontSize="13" 
                                                TextAlignment="Center"/>
-                                </StackPanel>
-                            </Border>
+                                    </StackPanel>
+                                </Border>
 
-                        </StackPanel>
-                    </Grid>
-                </ui:DynamicScrollViewer>
-            </Border>
-        </Grid>
-        <tray:NotifyIcon Grid.Row="0" 
+                            </StackPanel>
+                        </Grid>
+                    </ui:DynamicScrollViewer>
+                </Border>
+            </Grid>
+            <tray:NotifyIcon Grid.Row="0" 
                          Icon="/Icon/icon2.ico"
                          FocusOnLeftClick="True"  
                          Name="TrayIcon"
                          MenuOnRightClick="True"
                          TooltipText="Everything Quick Search" >
-            <tray:NotifyIcon.Menu>
-                <ContextMenu MinWidth="65">
-                    <MenuItem Name="versionHeader"
+                <tray:NotifyIcon.Menu>
+                    <ContextMenu MinWidth="65">
+                        <MenuItem Name="versionHeader"
                               Header="{x:Static prop:Lang.TrayIcon_Version}"
                               FontSize="10"
                               IsEnabled="False"
@@ -652,34 +646,34 @@
                               Background="{x:Null}"
                               FontFamily="Segoe Print"/>
 
-                    <ui:MenuItem x:Name="Update_Button"
+                        <ui:MenuItem x:Name="Update_Button"
                            Header="{x:Static prop:Lang.TrayIcon_CheckForUpdate}"
                            Click="Update_Button_Click" 
                            Icon="{ui:SymbolIcon Symbol=ArrowSync20}"/>
-                    <ui:MenuItem x:Name="visitGithub_Buton" 
+                        <ui:MenuItem x:Name="visitGithub_Buton" 
                            Header="{x:Static prop:Lang.TrayIcon_VisitGitHub}"
                            Click="visitGithub_Buton_Click"
                            Icon="{ui:SymbolIcon Symbol=Link20}"/>
-                    <Separator Margin="0,3,0,3"/>
+                        <Separator Margin="0,3,0,3"/>
 
-                    <ui:ToggleSwitch x:Name="AutoUpdateToggle" 
+                        <ui:ToggleSwitch x:Name="AutoUpdateToggle" 
                                      Content="{x:Static prop:Lang.TrayIcon_AutoUpdate}"
                                      Checked="AutoUpdateToggle_CheckChanged" 
                                      Unchecked="AutoUpdateToggle_CheckChanged"/>
 
-                    <ui:ToggleSwitch x:Name="AutorunToggle" 
+                        <ui:ToggleSwitch x:Name="AutorunToggle" 
                                Content="{x:Static prop:Lang.TrayIcon_StartOnLogin}"
                                Checked="AutorunToggle_CheckChanged" 
                                Unchecked="AutorunToggle_CheckChanged"/>
 
-                    <Separator Margin="0,3,0,3"/>
+                        <Separator Margin="0,3,0,3"/>
 
-                    <MenuItem x:Name="Exit_Button" Height="34" 
+                        <MenuItem x:Name="Exit_Button" Height="34" 
                         Header="{x:Static prop:Lang.TrayIcon_Exit}" Click="ExitApp"
                         Icon="{ui:SymbolIcon Symbol=ArrowExit20}" />
 
-                </ContextMenu>
-            </tray:NotifyIcon.Menu>
-        </tray:NotifyIcon>
-    </Grid>
+                    </ContextMenu>
+                </tray:NotifyIcon.Menu>
+            </tray:NotifyIcon>
+        </Grid>
 </ui:FluentWindow>

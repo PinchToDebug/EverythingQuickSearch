@@ -1,4 +1,5 @@
-﻿using EverythingQuickSearch.Properties;
+﻿using EverythingQuickSearch.Core;
+using EverythingQuickSearch.Properties;
 using EverythingQuickSearch.Util;
 using Gma.System.MouseKeyHook;
 using IWshRuntimeLibrary;
@@ -221,11 +222,11 @@ namespace EverythingQuickSearch
         private Button? _selectedCategoryButton;
 
         SolidColorBrush SelectedItemBarBrush = new SolidColorBrush(Colors.Red);
-
+        public Settings Settings { get; set; }
         public MainWindow()
         {
             SystemThemeWatcher.Watch(this); // in 4.2.0 not working https://github.com/lepoco/wpfui/issues/1656
-
+            this.Settings = new Settings();
             InitializeComponent();
             this.Language = XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag);
 
@@ -360,10 +361,19 @@ namespace EverythingQuickSearch
             _darkModeSearchBar = (int?)Registry.GetValue(@"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize",
                                                           "AppsUseLightTheme", 1) == 0;
 
-            ApplicationTheme theme = _darkModeApplication ? ApplicationTheme.Dark : ApplicationTheme.Light;
+            ApplicationTheme theme = _darkModeApplication ? ApplicationTheme.Dark : Settings.TransparentBackground ? ApplicationTheme.Dark : ApplicationTheme.Light;
             ApplicationThemeManager.Apply(theme);
             WindowBackgroundManager.UpdateBackground(UiApplication.Current.MainWindow, theme, WindowBackdropType.Acrylic);
             this.SetResourceReference(Button.BackgroundProperty, "ControlOnImageFillColorDefaultBrush");
+            if (Settings.TransparentBackground)
+            {
+                this.SetResourceReference(BackgroundProperty, Brushes.Transparent);
+                SearchBorder.SetResourceReference(BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
+            }
+            else
+            {
+                SearchBorder.SetResourceReference(BackgroundProperty, "ApplicationBackgroundBrush");
+            }
         }
 
         private void M_GlobalHook_KeyDown(object? sender, System.Windows.Forms.KeyEventArgs e)
@@ -1862,11 +1872,15 @@ namespace EverythingQuickSearch
                 btn.Background = Brushes.Transparent;
             }
             else if (sender is Button btn2)
-        {
+            {
                 btn2.Background = Brushes.Transparent;
             }
         }
 
+        private void SettingsButtons_Click(object sender, RoutedEventArgs e)
+        {
+            new SettingsWindow(this).Show();
+        }
 
         #region notifyicon
         private void AutorunToggle_CheckChanged(object sender, RoutedEventArgs e)

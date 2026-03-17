@@ -1,0 +1,58 @@
+﻿<ui:FluentWindow x:Class="EverythingQuickSearch.SettingsWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                 xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml" 
+                 xmlns:local="clr-namespace:EverythingQuickSearch"
+                 mc:Ignorable="d"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowStyle="None" 
+                 Title="SettingsWindow" 
+                 WindowBackdropType="Mica"
+                 Background="Transparent"
+                 Height="330" 
+                 Width="471">
+    <Grid>
+        <ui:TitleBar Title="Everything Quick Search settings"
+                     Name="Titlebar" 
+                     Padding="8,0,0,0"
+                     Height="30"
+                     CanMaximize="False"
+                     ShowMinimize="False"
+                     ShowMaximize="False">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Source="/Icon/icon.ico"
+                              Margin="0,0,6,0"/>
+            </ui:TitleBar.Icon>
+            <ui:TitleBar.TrailingContent>
+                <StackPanel Orientation="Horizontal">
+                    <ui:Button x:Name="AboutButton"
+                               Icon="{ui:SymbolIcon Symbol=Info24}"
+                               HorizontalAlignment="Right"
+                               VerticalAlignment="Top"
+                               Grid.Column="2"
+                               Margin="0,0,5,0"
+                               Height="30"
+                               Padding="10,0,10,0"/>
+                </StackPanel>
+            </ui:TitleBar.TrailingContent>
+        </ui:TitleBar>
+        <StackPanel>
+
+            <Grid Margin="20,45,0,0">
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock Text="Window background:"
+                               Margin="0,0,15,0"
+                               VerticalAlignment="Center"/>
+                    <ui:DropDownButton x:Name="BackgroundDropDownButton">
+                        <ui:DropDownButton.Flyout>
+                            <ContextMenu x:Name="BackgroundContextMenu"/>
+                        </ui:DropDownButton.Flyout>
+                    </ui:DropDownButton>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+
+    </Grid>
+</ui:FluentWindow>
