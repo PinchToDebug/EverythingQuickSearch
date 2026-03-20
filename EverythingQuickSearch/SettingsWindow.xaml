@@ -28,6 +28,7 @@
             <ui:TitleBar.TrailingContent>
                 <StackPanel Orientation="Horizontal">
                     <ui:Button x:Name="AboutButton"
+                               Visibility="Collapsed"
                                Icon="{ui:SymbolIcon Symbol=Info24}"
                                HorizontalAlignment="Right"
                                VerticalAlignment="Top"
