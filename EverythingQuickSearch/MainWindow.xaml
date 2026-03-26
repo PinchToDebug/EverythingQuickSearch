@@ -119,7 +119,7 @@
                     <TextBlock Text="{Binding ModificationDate}"
                                Grid.Column="2"
                                TextAlignment="Right"
-                               Foreground="{DynamicResource SystemFillColorSolidNeutralBrush}"
+                               Foreground="{DynamicResource TemplateSecondaryTextBrush}"
                                FontSize="12"
                                VerticalAlignment="Center"
                                TextTrimming="CharacterEllipsis"/>

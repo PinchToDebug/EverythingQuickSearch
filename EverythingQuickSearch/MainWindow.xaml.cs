@@ -223,6 +223,7 @@ namespace EverythingQuickSearch
         private Button? _selectedCategoryButton;
 
         SolidColorBrush SelectedItemBarBrush = new SolidColorBrush(Colors.Red);
+        SolidColorBrush TemplateSecondaryTextBrush = new SolidColorBrush(Colors.Red);
         public Settings Settings { get; set; }
         public MainWindow()
         {
@@ -242,6 +243,7 @@ namespace EverythingQuickSearch
             versionHeader.Header += " " + Process.GetCurrentProcess().MainModule!.FileVersionInfo.FileVersion!.ToString();
             LoadUwpApps();
             Application.Current.Resources["SelectedItemBarBrush"] = SelectedItemBarBrush;
+            Application.Current.Resources["TemplateSecondaryTextBrush"] = TemplateSecondaryTextBrush;
 
             _darkModeApplication = (int?)Registry.GetValue(
                 @"HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize", "SystemUsesLightTheme", 1) == 0;
@@ -372,6 +374,7 @@ namespace EverythingQuickSearch
             Brush searchBarForegroundColor;
             if (Settings.TransparentBackground)
             {
+                Application.Current.Resources["TemplateSecondaryTextBrush"] = (SolidColorBrush)Application.Current.Resources["SystemFillColorSolidNeutralBrush"];
                 this.SetResourceReference(BackgroundProperty, Brushes.Transparent);
                 SearchBorder.SetResourceReference(BackgroundProperty, "CardBackgroundFillColorDefaultBrush");
                 searchBarForegroundColor = Brushes.White;
@@ -387,6 +390,14 @@ namespace EverythingQuickSearch
                 {
                     SearchBorder.Background = Brushes.White;
                     searchBarForegroundColor = Brushes.Black;
+                }
+                if (_darkModeApplication)
+                {
+                    Application.Current.Resources["TemplateSecondaryTextBrush"] = (SolidColorBrush)Application.Current.Resources["TextFillColorDisabledBrush"];
+                }
+                else
+                {
+                    Application.Current.Resources["TemplateSecondaryTextBrush"] = (SolidColorBrush)Application.Current.Resources["SystemFillColorSolidNeutralBrush"];
                 }
             }
             SearchBarTextBox.Foreground = searchBarForegroundColor;
