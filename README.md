@@ -17,9 +17,7 @@
 [![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/J3J61PAH6H)
 
 > [!important]
-> Everything64.dll has to be next to the executable and Everything 1.4.1 service has to run!
-
-You can download the dll from here: https://www.voidtools.com/Everything-SDK.zip 
+> Everything 1.4.1 service has to run!
 
 ## 🖼️ Screenshots
 
@@ -50,8 +48,7 @@ You can download the dll from here: https://www.voidtools.com/Everything-SDK.zip
 
 1. [Download the latest release](https://github.com/PinchToDebug/EverythingQuickSearch/releases/latest/download/EverythingQuickSearch.exe)
 2. Make sure Everything 1.4.1 service is running
-3. Make sure [Everything64.dll](https://www.voidtools.com/Everything-SDK.zip) is next to the exe
-4. Open the start menu and search
+3. Open the start menu and search
 
 
 ## 🤝 Contributing
